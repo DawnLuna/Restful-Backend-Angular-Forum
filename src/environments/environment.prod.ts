@@ -1,3 +1,4 @@
 export const environment = {
-  production: true
+  production: true,
+  forumApiEndpoint: `http://localhost:5000/`
 };

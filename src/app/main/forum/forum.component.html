@@ -1,1 +1,18 @@
-<p>forum works!</p>
+<div *ngFor="let section of sections" class="p-2 border-bottom">
+    <div>
+        <div class="float-right">Threads: {{section.threadCount}}</div>
+        <a [routerLink]="['/section/', section._id]">
+            <h4 class="mt-2">{{section.title}}</h4>
+        </a>
+    </div>
+    <p>{{section.description}}</p>
+    <div>
+        Section Admins: <ng-container *ngFor="let admin of section.admins">{{admin.username}}</ng-container> <ng-container *ngIf="!section.admins.length">-</ng-container>
+    </div>
+</div>
+<div class="mt-2">
+    About: {{forum.description}}
+</div>
+<div class="my-1">
+    Forum Admins: <ng-container *ngFor="let admin of forum.admins">{{admin.username}}</ng-container>
+</div>

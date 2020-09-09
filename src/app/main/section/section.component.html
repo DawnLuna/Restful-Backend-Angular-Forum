@@ -1,1 +1,32 @@
-<p>section works!</p>
+<div>
+    <button class="btn btn-outline-secondary shadow-sm my-2" [routerLink]="['/']">Home</button>
+</div>
+<ng-container *ngIf="!!section">
+    <div class="px-2 pb-1 border-bottom">
+        <div class="float-right">{{section.threadCount}} Threads</div>
+        <h4>{{section.title}}</h4>
+        <p style="text-indent: 2em;">{{section.description}}</p>
+        <div class="font-weight-lighter">Section Admins: <ng-container *ngFor="let admin of section.admins">
+                {{admin.username}}</ng-container>
+            <ng-container *ngIf="!section.admins.length">-</ng-container>
+        </div>
+    </div>
+    <div class="py-lg-1 row mx-lg-0 border-bottom">
+        <div class="d-none d-lg-block col-lg-8">Title</div>
+        <div class="d-none d-lg-block col-lg-1 text-center">Author</div>
+        <div class="d-none d-lg-block col-lg-1 text-center">Start Time</div>
+        <div class="d-none d-lg-block col-lg-1 text-center">Reply</div>
+        <div class="d-none d-lg-block col-lg-1 text-center">Last Reply</div>
+    </div>
+    <div *ngFor="let thread of threads" class=" row mx-lg-0 border-bottom">
+        <div class="col-12 col-lg-8"><a [routerLink]="['/thread/', thread._id]">{{thread.title}}</a></div>
+        <div class="col-5 col-lg-1 text-left text-lg-center"><a
+                [routerLink]="['/profile/', thread.author._id]">{{thread.author.username}}</a></div>
+        <div class="d-none d-lg-block col-lg-1 text-center">{{thread.createdAt | date:'M-d H:mm'}}</div>
+        <div class="col-2 col-lg-1 text-center">{{thread.replyCount}}</div>
+        <div class="col-5 col-lg-1 text-right text-lg-center">{{thread.updatedAt | date:'M-d H:mm'}}</div>
+        <p class="text-truncate px-1">{{thread.slug}}</p>
+    </div>
+    <forum-post *ngIf="auth.isAuthenticated" type="thread" id="{{section._id}}" (thread)="postThread($event)">
+    </forum-post>
+</ng-container>

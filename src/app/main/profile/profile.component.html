@@ -1,1 +1,15 @@
-<p>profile works!</p>
+<ng-container>
+    <ng-container *ngIf="!auth.isAuthenticated">
+        You need to login first!
+    </ng-container>
+    <div *ngIf="auth.isAuthenticated&&user" class="mx-auto col-md-6">
+        <div>username: <span class="font-weight-bold">{{user.username}}</span></div>
+        <div>signature: {{user.signature}}</div>
+        <div>thread: {{user.threadCount}}</div>
+        <div>replyCount: {{user.replyCount}}</div>
+        <ng-container *ngIf="user._id==auth.user._id">
+            <!-- implement change password here -->
+        </ng-container>
+    </div>
+    {{message}}
+</ng-container>

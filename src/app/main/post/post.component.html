@@ -1,0 +1,16 @@
+<div class="form-group" *ngIf="!!type&&type=='thread'">
+    <form [formGroup]="threadForm" (ngSubmit)="postThread()">
+        <input type="text" class="form-control mb-1" placeholder="Title" formControlName="title">
+        <angular-editor formControlName="content" [config]="editorConfig"></angular-editor>
+        <div><button type="submit" class="btn btn-primary"
+                [disabled]="!threadForm.valid || isSubmitting">Submit</button>
+        </div>
+    </form>
+</div>
+<div class="form-group" *ngIf="!!type&&type=='reply'">
+    <form [formGroup]="replyForm" (ngSubmit)="postReply()">
+        <angular-editor formControlName="content" [config]="editorConfig"></angular-editor>
+        <div><button type="submit" class="btn btn-primary" [disabled]="isSubmitting">Submit</button>
+        </div>
+    </form>
+</div>

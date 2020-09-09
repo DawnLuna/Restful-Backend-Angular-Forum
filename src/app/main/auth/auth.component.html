@@ -1,0 +1,30 @@
+<ng-container *ngIf="this.router.url === '/logout'">Loging out</ng-container>
+<ng-container *ngIf="this.router.url === '/register'">
+    <div class="text-center mx-auto col-md-6">
+        <h1>Create your account</h1>
+        <form [formGroup]="registerForm" (ngSubmit)="register()">
+            <div><label>Username</label></div>
+            <div><input type="text" placeholder="Username" formControlName="username"></div>
+            <div *ngIf="registerForm.username">
+                Username is required.
+            </div>
+            <div><label>email</label></div>
+            <div><input type="email" placeholder="email@email.com" formControlName="email"></div>
+            <div><label>password</label></div>
+            <div><input type="password" placeholder="password" formControlName="password"></div>
+            <div><button type="submit" [disabled]="!registerForm.valid || isSubmitting">Submit</button></div>
+        </form>
+    </div>
+</ng-container>
+<ng-container *ngIf="this.router.url === '/login'">
+    <div class="text-center mx-auto col-md-6">
+        <h1>Login your account</h1>
+        <form [formGroup]="loginForm" (ngSubmit)="login()">
+            <div><label>Username or Email</label></div>
+            <div><input type="text" placeholder="Username or Email" formControlName="username"></div>
+            <div><label>password</label></div>
+            <div><input type="password" placeholder="password" formControlName="password"></div>
+            <div><button type="submit" [disabled]="!loginForm.valid || isSubmitting">Submit</button></div>
+        </form>
+    </div>
+</ng-container>

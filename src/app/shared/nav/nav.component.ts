@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
+import { AuthService } from '../../core'
 @Component({
   selector: 'forum-nav',
   templateUrl: './nav.component.html',
@@ -8,7 +9,9 @@ import { Component, OnInit } from '@angular/core';
 export class NavComponent implements OnInit {
   collapsed:boolean = true;
 
-  constructor() { }
+  constructor(
+    public auth: AuthService
+  ) { }
 
   ngOnInit(): void {
   }
