@@ -23,6 +23,16 @@ export class ApiService {
     return this.http.get<Forum>(`${this.endpoint}`);
   }
 
+  addSection(section: Section): Observable<Section> {
+    let httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': this.auth.token
+      })
+    };
+    return this.http.post<Section>(`${this.endpoint}admin/section/`, section, httpOptions);
+  }
+
   getSection(sid: string): Observable<Section> {
     return this.http.get<Section>(`${this.endpoint}section/${sid}`);
   }

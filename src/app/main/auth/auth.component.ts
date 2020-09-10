@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { ApiService, AuthService } from '../../core'
@@ -14,6 +14,7 @@ export class AuthComponent implements OnInit {
   isSubmitting: boolean = false;
   registerForm: FormGroup;
   loginForm: FormGroup;
+  form: { [key: string]: AbstractControl; };
 
   constructor(
     private api: ApiService,
@@ -22,7 +23,7 @@ export class AuthComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    if(this.router.url === '/logout') {
+    if (this.router.url === '/logout') {
       this.auth.logout();
       this.router.navigateByUrl('/');
       return;
@@ -58,6 +59,12 @@ export class AuthComponent implements OnInit {
         Validators.maxLength(20)
       ])
     });
+
+    if (this.router.url === '/login') {
+      this.form = this.loginForm.controls;
+    } else {
+      this.form = this.registerForm.controls;
+    }
   }
 
   register() {

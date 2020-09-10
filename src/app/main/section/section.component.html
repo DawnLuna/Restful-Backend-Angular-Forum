@@ -2,12 +2,12 @@
     <button class="btn btn-outline-secondary shadow-sm my-2" [routerLink]="['/']">Home</button>
 </div>
 <ng-container *ngIf="!!section">
-    <div class="px-2 pb-1 border-bottom">
+    <div class="p-2 border-top border-bottom">
         <div class="float-right">{{section.threadCount}} Threads</div>
         <h4>{{section.title}}</h4>
-        <p style="text-indent: 2em;">{{section.description}}</p>
-        <div class="font-weight-lighter">Section Admins: <ng-container *ngFor="let admin of section.admins">
-                {{admin.username}}</ng-container>
+        <p class="text-indent-1">{{section.description}}</p>
+        <div class="font-weight-lighter">Section Admins:
+            <ng-container *ngFor="let admin of section.admins"> {{admin.username}}</ng-container>
             <ng-container *ngIf="!section.admins.length">-</ng-container>
         </div>
     </div>

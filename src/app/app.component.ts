@@ -18,7 +18,7 @@ export class AppComponent {
     api.getForum().subscribe(
       forum => {
         titleSer.setDefaultTitle(forum);
-        cache.forum = forum;
+        cache.updateforum(forum);
       },
       error => {
         console.log(error);

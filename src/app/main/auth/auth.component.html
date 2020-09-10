@@ -1,30 +1,33 @@
 <ng-container *ngIf="this.router.url === '/logout'">Loging out</ng-container>
-<ng-container *ngIf="this.router.url === '/register'">
-    <div class="text-center mx-auto col-md-6">
-        <h1>Create your account</h1>
-        <form [formGroup]="registerForm" (ngSubmit)="register()">
-            <div><label>Username</label></div>
-            <div><input type="text" placeholder="Username" formControlName="username"></div>
-            <div *ngIf="registerForm.username">
-                Username is required.
+<ng-container *ngIf="this.router.url === '/register' || this.router.url === '/login'">
+    <div class="mx-auto mt-4 p-2 border rounded" style="width: 350px;">
+        <form [formGroup]="this.router.url === '/register' ? registerForm:loginForm"
+            (ngSubmit)="this.router.url === '/register' ? register():login()">
+            <div class="modal-header">
+                <h4 class="modal-title" *ngIf="this.router.url === '/register'">Create your account</h4>
+                <h4 class="modal-title" *ngIf="this.router.url === '/login'">Login your account</h4>
             </div>
-            <div><label>email</label></div>
-            <div><input type="email" placeholder="email@email.com" formControlName="email"></div>
-            <div><label>password</label></div>
-            <div><input type="password" placeholder="password" formControlName="password"></div>
-            <div><button type="submit" [disabled]="!registerForm.valid || isSubmitting">Submit</button></div>
-        </form>
-    </div>
-</ng-container>
-<ng-container *ngIf="this.router.url === '/login'">
-    <div class="text-center mx-auto col-md-6">
-        <h1>Login your account</h1>
-        <form [formGroup]="loginForm" (ngSubmit)="login()">
-            <div><label>Username or Email</label></div>
-            <div><input type="text" placeholder="Username or Email" formControlName="username"></div>
-            <div><label>password</label></div>
-            <div><input type="password" placeholder="password" formControlName="password"></div>
-            <div><button type="submit" [disabled]="!loginForm.valid || isSubmitting">Submit</button></div>
+            <div class="modal-body form-group">
+                <div>
+                    <label>*Username</label>
+                    <input type="text" placeholder="Username" formControlName="username" class="form-control">
+                </div>
+                <div *ngIf="this.router.url === '/register'">
+                    <label>*Email</label>
+                    <input type="email" placeholder="email@email.com" formControlName="email" class="form-control">
+                </div>
+                <div>
+                    <label>*Password</label>
+                    <!-- <span *ngIf="form.password.invalid && (form.password.touched || form.password.dirty)">password</span> -->
+                    <input type="password" placeholder="password" formControlName="password" class="form-control">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button *ngIf="this.router.url === '/register'" type="submit"
+                    [disabled]="!registerForm.valid || isSubmitting">Register</button>
+                <button *ngIf="this.router.url === '/login'" type="submit"
+                    [disabled]="!loginForm.valid || isSubmitting">Login</button>
+            </div>
         </form>
     </div>
 </ng-container>
