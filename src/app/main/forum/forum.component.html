@@ -5,7 +5,7 @@
             <h4 class="mt-2">{{section.title}}</h4>
         </a>
     </div>
-    <p class="text-secondary text-indent-1">{{section.description}}</p>
+    <p class="text-secondary text-indent-1" [innerHTML]="section.description"></p>
     <div>
         Section Admins: <ng-container *ngFor="let admin of section.admins">{{admin.username}}</ng-container>
         <ng-container *ngIf="!section.admins.length">-</ng-container>
@@ -13,31 +13,6 @@
 </div>
 <div class="mt-2">
     <span class="text-primary font-weight-bold">About:</span> {{forum.description}}
-</div>
-<div *ngIf="auth.isAuthenticated && isForumAdmin">
-    <button type="button" class="btn btn-sm btn-outline-secondary" (click)="isAddSectionCollapsed = !isAddSectionCollapsed"
-        [attr.aria-expanded]="!isAddSectionCollapsed" aria-controls="addSection">
-        Add Section
-    </button>
-    <form [formGroup]="sectionForm" (ngSubmit)="addSection()" id="addSection" [ngbCollapse]="isAddSectionCollapsed"
-        class="border">
-        <div class="modal-header">
-            <h4 class="modal-title">Add New Section</h4>
-        </div>
-        <div class="modal-body form-group">
-            <div>
-                <label>*Title</label>
-                <input type="text" placeholder="Title" formControlName="title" class="form-control">
-            </div>
-            <div>
-                <label>*Description</label>
-                <input type="text" placeholder="Description" formControlName="description" class="form-control">
-            </div>
-        </div>
-        <div class="modal-footer">
-            <button type="submit" [disabled]="!sectionForm.valid || isSubmitting">Add Section</button>
-        </div>
-    </form>
 </div>
 <div class="my-1">
     Forum Admins:

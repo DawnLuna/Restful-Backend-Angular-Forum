@@ -32,7 +32,7 @@ export class AuthService {
     }
   }
 
-  login(token:string) {
+  login(token: string) {
     this.cache.updateToken(token);
     this.token = token;
     this.decodeUser();
@@ -46,5 +46,13 @@ export class AuthService {
 
   get isAuthenticated(): boolean {
     return !!this.user;
+  }
+
+  get isForumAdmin(): boolean {
+    if (this.isAuthenticated)
+      for (let i = 0; i < this.cache.forum.admins.length; i++)
+        if (this.user._id === this.cache.forum.admins[i]._id)
+          return true;
+    return false;
   }
 }

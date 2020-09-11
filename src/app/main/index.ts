@@ -4,3 +4,4 @@ export * from './thread/thread.component';
 export * from './profile/profile.component';
 export * from './post/post.component';
 export * from './auth/auth.component';
+export * from './admin/admin.component';

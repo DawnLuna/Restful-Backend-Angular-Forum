@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { ForumComponent, SectionComponent, ThreadComponent, ProfileComponent, AuthComponent } from './main';
+import { ForumComponent, SectionComponent, ThreadComponent, ProfileComponent, AuthComponent, AdminComponent } from './main';
 
 const routes: Routes = [
   { path: 'section/:sid', component: SectionComponent },
@@ -11,6 +11,7 @@ const routes: Routes = [
   { path: 'register', component: AuthComponent },
   { path: 'login', component: AuthComponent },
   { path: 'logout', component: AuthComponent },
+  { path: 'admin', component: AdminComponent },
   { path: '', component: ForumComponent }
 ];
 
