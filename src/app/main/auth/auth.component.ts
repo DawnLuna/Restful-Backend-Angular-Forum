@@ -25,7 +25,11 @@ export class AuthComponent implements OnInit {
   ngOnInit(): void {
     if (this.router.url === '/logout') {
       this.auth.logout();
-      this.router.navigateByUrl('/');
+      this.router.navigateByUrl('');
+      return;
+    }
+    if(this.auth.isAuthenticated) {
+      this.router.navigateByUrl('/profile/'+this.auth.user._id);
       return;
     }
 

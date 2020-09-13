@@ -25,29 +25,21 @@ export class ProfileComponent implements OnInit {
     public auth: AuthService,
     private api: ApiService,
     public cache: CacheService,
-    private activeRoute: ActivatedRoute,
-    private router: Router,
+    private activeRoute: ActivatedRoute
   ) { }
 
   ngOnInit(): void {
-    if (this.router.url === '/profile') {
-      this.api.getUserById(this.auth.user._id).subscribe(
-        user => this.user = user,
-        error => this.message = error.message
-      );
-    } else {
-      this.activeRoute.params.subscribe(routeParams => {
-        if (this.isId(routeParams.uid)) {
-          this.api.getUserById(routeParams.uid).subscribe(
-            user => this.user = user,
-            error => this.message = error.message
-          );
-        } else {
-          this.message = `invaild user id`;
-          return;
-        }
-      });
-    }
+    this.activeRoute.params.subscribe(routeParams => {
+      if (routeParams.uid&&this.isId(routeParams.uid)) {
+        this.api.getUserById(routeParams.uid).subscribe(
+          user => this.user = user,
+          error => this.message = error.message
+        );
+      } else {
+        this.message = `invaild user id`;
+        return;
+      }
+    });
 
     this.changePassword = new FormGroup({
       oldpassword: new FormControl('', [

@@ -11,7 +11,7 @@
                 <a class="nav-link" (click)="collapsed=!collapsed" [routerLink]="['/admin']">Admin</a>
             </li>
             <li class="nav-item" *ngIf="auth.isAuthenticated">
-                <a class="nav-link" (click)="collapsed=!collapsed" [routerLink]="['/profile']">Profile</a>
+                <a class="nav-link" (click)="collapsed=!collapsed" [routerLink]="['/profile',auth.user._id]">Profile</a>
             </li>
             <li class="nav-item" *ngIf="auth.isAuthenticated">
                 <a class="nav-link" (click)="collapsed=!collapsed" [routerLink]="['/logout']">Log out</a>
