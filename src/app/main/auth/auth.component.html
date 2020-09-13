@@ -1,6 +1,7 @@
 <ng-container *ngIf="this.router.url === '/logout'">Loging out</ng-container>
 <ng-container *ngIf="this.router.url === '/register' || this.router.url === '/login'">
-    <div class="mx-auto mt-4 p-2 border rounded" style="width: 350px;">
+    <div class="mx-auto mt-4 p-2 border rounded "
+        style="width: 350px; background-image:  linear-gradient(20deg, #eeeeee, #ffffff);">
         <form [formGroup]="this.router.url === '/register' ? registerForm:loginForm"
             (ngSubmit)="this.router.url === '/register' ? register():login()">
             <div class="modal-header">
@@ -10,22 +11,40 @@
             <div class="modal-body form-group">
                 <div>
                     <label>*Username</label>
-                    <input type="text" placeholder="Username" formControlName="username" class="form-control">
+                    <input type="text" placeholder="Username" formControlName="username" class="form-control"
+                        maxlength="20">
+                    <ngb-alert [dismissible]="false" [type]="'danger'" class="py-1 px-2 m-0 mt-1"
+                        *ngIf="form.username.invalid && form.username.dirty">
+                        <ng-container *ngIf="form.username.value.length<3||form.username.value.length>20">
+                            must be between 3 and 20 characters.</ng-container>
+                    </ngb-alert>
                 </div>
-                <div *ngIf="this.router.url === '/register'">
+                <div class="mt-2" *ngIf="this.router.url === '/register'">
                     <label>*Email</label>
-                    <input type="email" placeholder="email@email.com" formControlName="email" class="form-control">
+                    <input type="email" placeholder="email@email.com" formControlName="email" class="form-control"
+                        maxlength="100">
+                    <ngb-alert [dismissible]="false" [type]="'danger'" class="py-1 px-2 m-0 mt-1"
+                        *ngIf="form.email.invalid && form.email.dirty">
+                        Email required.
+                        <ng-container *ngIf="form.email.value.length<5||form.email.value.length>100">
+                            must be between 5 and 100 characters.</ng-container>
+                    </ngb-alert>
                 </div>
-                <div>
+                <div class="mt-2">
                     <label>*Password</label>
-                    <!-- <span *ngIf="form.password.invalid && (form.password.touched || form.password.dirty)">password</span> -->
-                    <input type="password" placeholder="password" formControlName="password" class="form-control">
+                    <input type="password" placeholder="password" formControlName="password" class="form-control"
+                        maxlength="20">
+                    <ngb-alert [dismissible]="false" [type]="'danger'" class="py-1 px-2 m-0 mt-1"
+                        *ngIf="form.password.invalid && form.password.dirty">
+                        <ng-container *ngIf="form.password.value.length<6||form.password.value.length>64">
+                            must be between 6 and 20 characters.</ng-container>
+                    </ngb-alert>
                 </div>
             </div>
-            <div class="modal-footer">
-                <button *ngIf="this.router.url === '/register'" type="submit"
+            <div class=" modal-footer">
+                <button *ngIf="this.router.url === '/register'" type="submit" class="btn btn-primary"
                     [disabled]="!registerForm.valid || isSubmitting">Register</button>
-                <button *ngIf="this.router.url === '/login'" type="submit"
+                <button *ngIf="this.router.url === '/login'" type="submit" class="btn btn-primary"
                     [disabled]="!loginForm.valid || isSubmitting">Login</button>
             </div>
         </form>

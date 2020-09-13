@@ -14,9 +14,17 @@ export class ProfileComponent implements OnInit {
   user: User;
   message: string = '';
 
+  isSubmitting: boolean = false;
+
+  alert: { type: string, message: string };
+  closeAlert() {
+    this.alert = undefined;
+  }
+
   constructor(
     public auth: AuthService,
     private api: ApiService,
+    public cache: CacheService,
     private activeRoute: ActivatedRoute,
     private router: Router,
   ) { }
@@ -41,7 +49,6 @@ export class ProfileComponent implements OnInit {
       });
     }
 
-
     this.changePassword = new FormGroup({
       oldpassword: new FormControl('', [
         Validators.required,
@@ -58,6 +65,33 @@ export class ProfileComponent implements OnInit {
 
   isId(id: string) {
     return id.length == 12 || id.length == 24;
+  }
+
+  addForumAdmin() {
+    this.isSubmitting = true;
+    this.api.addForumAdmin(this.user).subscribe(
+      data => {
+        this.alert = { type: 'success', message: data.message };
+        this.cache.updateforum(data.forum);
+        setTimeout(() => { this.isSubmitting = false; }, 500);
+      }, err => {
+        this.alert = { type: 'danger', message: `${err.status} ${err.statusText}: ${err.error.message}` };
+        setTimeout(() => { this.isSubmitting = false; }, 500);
+      }
+    );
+  }
+
+  removeForumAdmin() {
+    this.api.removeForumAdmin(this.user).subscribe(
+      data => {
+        this.alert = { type: 'success', message: data.message };
+        this.cache.updateforum(data.forum);
+        setTimeout(() => { this.isSubmitting = false; }, 500);
+      }, err => {
+        this.alert = { type: 'danger', message: `${err.status} ${err.statusText}: ${err.error.message}` };
+        setTimeout(() => { this.isSubmitting = false; }, 500);
+      }
+    );
   }
 
 }

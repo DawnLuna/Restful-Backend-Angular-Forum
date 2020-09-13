@@ -2,7 +2,7 @@
     <button class="btn btn-outline-secondary shadow-sm my-2" [routerLink]="['/']">Home</button>
 </div>
 <ng-container *ngIf="!!section">
-    <div class="p-2 border-top border-bottom">
+    <div class="p-2 border-top border-bottom bg-white">
         <div class="float-right">{{section.threadCount}} Threads</div>
         <h4>{{section.title}}</h4>
         <p class="text-indent-1">{{section.description}}</p>
@@ -18,11 +18,11 @@
         <div class="d-none d-lg-block col-lg-1 text-center">Reply</div>
         <div class="d-none d-lg-block col-lg-1 text-center">Last Reply</div>
     </div>
-    <div *ngFor="let thread of threads" class=" row mx-lg-0 border-bottom">
-        <div class="col-12 col-lg-8"><a [routerLink]="['/thread/', thread._id]">{{thread.title}}</a></div>
-        <div class="col-5 col-lg-1 text-left text-lg-center"><a
-                [routerLink]="['/profile/', thread.author._id]">{{thread.author.username}}</a></div>
-        <div class="d-none d-lg-block col-lg-1 text-center">{{thread.createdAt | date:'M-d H:mm'}}</div>
+    <div *ngFor="let thread of threads" class="row mx-lg-0 border-bottom">
+        <div class="col-12 col-lg-8 pb-2 pb-lg-0"><a [routerLink]="['/thread/', thread._id]">{{thread.title}}</a></div>
+        <div class="col-5 col-lg-1 text-left text-lg-center"><span class="d-bolck d-lg-none">by </span>
+            <a [routerLink]="['/profile/', thread.author._id]">{{thread.author.username}}</a></div>
+        <div class="d-none d-lg-block col-lg-1 text-center ">{{thread.createdAt | date:'M-d H:mm'}}</div>
         <div class="col-2 col-lg-1 text-center">{{thread.replyCount}}</div>
         <div class="col-5 col-lg-1 text-right text-lg-center">{{thread.updatedAt | date:'M-d H:mm'}}</div>
         <p class="text-truncate px-1">{{thread.slug}}</p>

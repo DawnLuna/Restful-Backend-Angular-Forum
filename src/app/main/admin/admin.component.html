@@ -1,67 +1,100 @@
 <nav ngbNav #nav="ngbNav" class="nav-tabs">
     <ng-container ngbNavItem>
-        <a ngbNavLink>Section</a>
+        <a ngbNavLink (click)="closeAlert()">Section</a>
         <ng-template ngbNavContent>
             <form [formGroup]="sectionForm" (ngSubmit)="addSection()">
                 <div class="modal-header">
-                    <h4 class="modal-title">Add Section</h4>
+                    <h4 class="modal-title">Add Sections</h4>
                 </div>
                 <div class="modal-body form-group">
                     <div>
                         <label>*Title</label>
-                        <input type="text" placeholder="Title" formControlName="title" class="form-control">
+                        <input type="text" placeholder="Title" formControlName="title" class="form-control"
+                            maxlength="64">
+                        <ngb-alert [dismissible]="false" [type]="'danger'" class="py-1 px-2 m-0 mt-1"
+                            *ngIf="section.title.invalid && section.title.dirty">
+                            <ng-container *ngIf="section.title.value.length<4||section.title.value.length>64">
+                                must be between 4 and 64 characters.</ng-container>
+                        </ngb-alert>
                     </div>
                     <div>
                         <label>*Description</label>
-                        <input type="text" placeholder="Description" formControlName="description" class="form-control">
+                        <input type="text" placeholder="Description" formControlName="description" class="form-control"
+                            maxlength="256">
+                        <ngb-alert [dismissible]="false" [type]="'danger'" class="py-1 px-2 m-0 mt-1"
+                            *ngIf="section.description.invalid && section.description.dirty">
+                            <ng-container
+                                *ngIf="section.description.value.length<4||section.description.value.length>256">
+                                must be between 4 and 256 characters.</ng-container>
+                        </ngb-alert>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" [disabled]="!sectionForm.valid || isSubmitting">Add Section</button>
+                    <button class="btn btn-primary" type="submit" [disabled]="!sectionForm.valid || isSubmitting">
+                        Add Section</button>
+                </div>
+            </form>
+            <form #s="ngForm">
+                <div class="modal-header">
+                    <h4 class="modal-title">Remove Sections</h4>
+                </div>
+                <div class="modal-body form-group">
+                    <label>Select a Section:</label>
+                    <select class="form-control" name="section" ngModel>
+                        <option value="" disabled>Choose a Section</option>
+                        <option *ngFor="let section of sections" [ngValue]="section">{{section.title}}
+                        </option>
+                    </select>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" type="submit" [disabled]="isSubmitting || s.value.section==''"
+                        (click)="removeSection(s.value.section)">Remove Section</button>
                 </div>
             </form>
         </ng-template>
     </ng-container>
     <ng-container ngbNavItem>
-        <a ngbNavLink>Remove Forum Admin</a>
+        <a ngbNavLink (click)="closeAlert()">Forum Admin</a>
         <ng-template ngbNavContent>
             <div class="form-group">
                 <div class="modal-header">
-                    <h4 class="modal-title">Remove Forum Admin</h4>
+                    <h4 class="modal-title">Add Forum Admin</h4>
                 </div>
                 <div class="modal-body form-group">
-                    <ngb-alert [dismissible]="false" [type]="'danger'" *ngIf="cache.forum.admins.length<2">
-                        <strong>Warning!</strong> You can not remove the last admin.
+                    <ngb-alert [dismissible]="false" [type]="'info'">
+                        Please goto the proflie of the user you would like to add.
                     </ngb-alert>
-                    <label for="forumAdmin">Select Admin:</label>
-                    <select class="form-control" id="forumAdmin">
-                        <option *ngFor="let admin of cache.forum.admins">{{admin.username}}</option>
-                    </select>
                 </div>
-                <div class="modal-footer">
-                    <button type="submit" [disabled]="isSubmitting">Remove</button>
-                </div>
+            </div>
+            <div class="form-group">
+                <form #admin="ngForm">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Remove Forum Admin</h4>
+                    </div>
+                    <div class="modal-body form-group">
+                        <ngb-alert [dismissible]="false" [type]="'danger'" *ngIf="cache.forum.admins.length<2">
+                            <strong>Error!</strong> You can not remove the last admin.
+                        </ngb-alert>
+                        <ngb-alert [dismissible]="false" [type]="'warning'"
+                            *ngIf="admin.value.admin != undefined && admin.value.admin != '' && admin.value.admin._id == auth.user._id">
+                            <strong>Warning!</strong> You are trying to remove yourself.
+                        </ngb-alert>
+                        <label>Select an Admin:</label>
+                        <select class="form-control" name="admin" ngModel>
+                            <option value="" disabled>Choose an admin</option>
+                            <option *ngFor="let admin of cache.forum.admins" [ngValue]="admin">{{admin.username}}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary" type="submit"
+                            [disabled]="isSubmitting || admin.value.admin=='' || cache.forum.admins.length<2"
+                            (click)="removeAdmin(admin.value.admin)">Remove Admin</button>
+                    </div>
+                </form>
             </div>
         </ng-template>
     </ng-container>
-    <ng-container ngbNavItem>
-        <a ngbNavLink>Add Forum Admin</a>
-        <ng-template ngbNavContent>
-            <p>Sed commodo, leo at suscipit dictum, quam est porttitor sapien, eget sodales nibh elit id diam. Nulla
-                facilisi.
-                Donec egestas ligula vitae odio interdum aliquet. Duis lectus turpis, luctus eget tincidunt eu, congue
-                et odio.
-                Duis pharetra et nisl at faucibus. Quisque luctus pulvinar arcu, et molestie lectus ultrices et. Sed
-                diam urna,
-                egestas ut ipsum vel, volutpat volutpat neque. Praesent fringilla tortor arcu. Vivamus faucibus nisl
-                enim, nec
-                tristique ipsum euismod facilisis. Morbi ut bibendum est, eu tincidunt odio. Orci varius natoque
-                penatibus et
-                magnis dis parturient montes, nascetur ridiculus mus. Mauris aliquet odio ac lorem aliquet ultricies in
-                eget
-                neque. Phasellus nec tortor vel tellus pulvinar feugiat.</p>
-        </ng-template>
-    </ng-container>
 </nav>
-
 <div [ngbNavOutlet]="nav" class="mt-2"></div>
+<ngb-alert *ngIf="alert" [type]="alert.type" (close)="closeAlert()">{{ alert.message }}</ngb-alert>

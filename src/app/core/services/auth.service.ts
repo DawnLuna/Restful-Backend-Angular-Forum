@@ -55,4 +55,12 @@ export class AuthService {
           return true;
     return false;
   }
+
+  isUserForumAdmin(uid: string): boolean {
+    if (this.isAuthenticated)
+      for (let i = 0; i < this.cache.forum.admins.length; i++)
+        if (uid === this.cache.forum.admins[i]._id)
+          return true;
+    return false;
+  }
 }

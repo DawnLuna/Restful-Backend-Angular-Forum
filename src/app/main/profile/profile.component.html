@@ -1,15 +1,34 @@
-<ng-container>
-    <ng-container *ngIf="!auth.isAuthenticated">
-        You need to login first!
-    </ng-container>
-    <div *ngIf="auth.isAuthenticated&&user" class="mx-auto col-md-6">
-        <div>username: <span class="font-weight-bold">{{user.username}}</span></div>
-        <div>signature: {{user.signature}}</div>
-        <div>thread: {{user.threadCount}}</div>
-        <div>replyCount: {{user.replyCount}}</div>
-        <ng-container *ngIf="user._id==auth.user._id">
-            <!-- implement change password here -->
-        </ng-container>
-    </div>
-    {{message}}
+<ng-container *ngIf="!auth.isAuthenticated">
+    You need to login first!
 </ng-container>
+<div *ngIf="user" class="mx-auto col-md-6 mt-3">
+    <div>username: <span class="font-weight-bold">{{user.username}}</span></div>
+    <div>signature: {{user.signature}}</div>
+    <div>thread: {{user.threadCount}}</div>
+    <div>replyCount: {{user.replyCount}}</div>
+    <ng-container *ngIf="user._id==auth.user._id">
+        <!-- implement change password here -->
+    </ng-container>
+    <div class="mt-4" *ngIf="auth.isForumAdmin">
+        <ng-container *ngIf="!auth.isUserForumAdmin(user._id)">
+            <ngb-alert [dismissible]="false" [type]="'danger'" *ngIf="user.banned">
+                <strong>Error!</strong> You can not add a banned user.
+            </ngb-alert>
+            <button class="btn btn-primary" [disabled]="isSubmitting || user.banned" (click)="addForumAdmin()">
+                Add to Forum Admin</button>
+        </ng-container>
+        <ng-container *ngIf="auth.isUserForumAdmin(user._id)">
+            <ngb-alert [dismissible]="false" [type]="'danger'"
+                *ngIf="auth.isUserForumAdmin(user._id)&&cache.forum.admins.length<2">
+                <strong>Error!</strong> You can not remove the last admin.
+            </ngb-alert>
+            <ngb-alert [dismissible]="false" [type]="'warning'" *ngIf="user._id==auth.user._id&&cache.forum.admins.length>1">
+                <strong>Warning!</strong> You are removing yourself!
+            </ngb-alert>
+            <button class="btn btn-primary" [disabled]="isSubmitting || cache.forum.admins.length<2"
+                (click)="removeForumAdmin()">Remove from Forum Admin</button>
+        </ng-container>
+        <ngb-alert class="mt-3" *ngIf="alert" [type]="alert.type" (close)="closeAlert()">{{ alert.message }}
+        </ngb-alert>
+    </div>
+</div>

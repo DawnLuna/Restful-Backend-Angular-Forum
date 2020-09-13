@@ -23,6 +23,26 @@ export class ApiService {
     return this.http.get<Forum>(`${this.endpoint}`);
   }
 
+  addForumAdmin(user: User): Observable<any> {
+    let httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': this.auth.token
+      })
+    };
+    return this.http.post<any>(`${this.endpoint}admin/`, user, httpOptions);
+  }
+
+  removeForumAdmin(user: User): Observable<any> {
+    let httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': this.auth.token
+      })
+    };
+    return this.http.delete<any>(`${this.endpoint}admin/${user._id}/${user.username}`, httpOptions);
+  }
+
   addSection(section: Section): Observable<Section> {
     let httpOptions = {
       headers: new HttpHeaders({
@@ -31,6 +51,16 @@ export class ApiService {
       })
     };
     return this.http.post<Section>(`${this.endpoint}admin/section/`, section, httpOptions);
+  }
+
+  removeSection(section: Section): Observable<any> {
+    let httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': this.auth.token
+      })
+    };
+    return this.http.delete<any>(`${this.endpoint}admin/section/${section._id}`, httpOptions);
   }
 
   getSection(sid: string): Observable<Section> {
