@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 
 import { AuthService, ApiService, CacheService, User } from '../../core';
 
@@ -12,7 +12,6 @@ import { AuthService, ApiService, CacheService, User } from '../../core';
 export class ProfileComponent implements OnInit {
   changePassword: FormGroup;
   user: User;
-  message: string = '';
 
   isSubmitting: boolean = false;
 
@@ -30,13 +29,14 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit(): void {
     this.activeRoute.params.subscribe(routeParams => {
-      if (routeParams.uid&&this.isId(routeParams.uid)) {
+      if (routeParams.uid && this.isId(routeParams.uid)) {
+        this.closeAlert();
         this.api.getUserById(routeParams.uid).subscribe(
           user => this.user = user,
-          error => this.message = error.message
+          err => this.alert = { type: 'danger', message: `${err.status} ${err.statusText}: ${err.error.message}` }
         );
       } else {
-        this.message = `invaild user id`;
+        this.alert = { type: 'danger', message: `Error: invaild user id.` }
         return;
       }
     });

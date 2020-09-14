@@ -1,12 +1,12 @@
 <ng-container *ngIf="this.router.url === '/logout'">Loging out</ng-container>
-<ng-container *ngIf="this.router.url === '/register' || this.router.url === '/login'">
+<ng-container *ngIf="this.router.url === '/user/register' || this.router.url === '/user/login'">
     <div class="mx-auto mt-4 p-2 border rounded "
         style="width: 350px; background-image:  linear-gradient(20deg, #eeeeee, #ffffff);">
-        <form [formGroup]="this.router.url === '/register' ? registerForm:loginForm"
-            (ngSubmit)="this.router.url === '/register' ? register():login()">
+        <form [formGroup]="this.router.url === '/user/register' ? registerForm:loginForm"
+            (ngSubmit)="this.router.url === '/user/register' ? register():login()">
             <div class="modal-header">
-                <h4 class="modal-title" *ngIf="this.router.url === '/register'">Create your account</h4>
-                <h4 class="modal-title" *ngIf="this.router.url === '/login'">Login your account</h4>
+                <h4 class="modal-title" *ngIf="this.router.url === '/user/register'">Create your account</h4>
+                <h4 class="modal-title" *ngIf="this.router.url === '/user/login'">Login your account</h4>
             </div>
             <div class="modal-body form-group">
                 <div>
@@ -19,7 +19,7 @@
                             must be between 3 and 20 characters.</ng-container>
                     </ngb-alert>
                 </div>
-                <div class="mt-2" *ngIf="this.router.url === '/register'">
+                <div class="mt-2" *ngIf="this.router.url === '/user/register'">
                     <label>*Email</label>
                     <input type="email" placeholder="email@email.com" formControlName="email" class="form-control"
                         maxlength="100">
@@ -42,9 +42,9 @@
                 </div>
             </div>
             <div class=" modal-footer">
-                <button *ngIf="this.router.url === '/register'" type="submit" class="btn btn-primary"
+                <button *ngIf="this.router.url === '/user/register'" type="submit" class="btn btn-primary"
                     [disabled]="!registerForm.valid || isSubmitting">Register</button>
-                <button *ngIf="this.router.url === '/login'" type="submit" class="btn btn-primary"
+                <button *ngIf="this.router.url === '/user/login'" type="submit" class="btn btn-primary"
                     [disabled]="!loginForm.valid || isSubmitting">Login</button>
             </div>
         </form>

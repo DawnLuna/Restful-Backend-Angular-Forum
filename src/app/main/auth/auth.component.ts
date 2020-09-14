@@ -23,13 +23,13 @@ export class AuthComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    if (this.router.url === '/logout') {
+    if (this.router.url === '/user/logout') {
       this.auth.logout();
       this.router.navigateByUrl('');
       return;
     }
-    if(this.auth.isAuthenticated) {
-      this.router.navigateByUrl('/profile/'+this.auth.user._id);
+    if (this.auth.isAuthenticated) {
+      this.router.navigateByUrl('/profile/' + this.auth.user._id);
       return;
     }
 
@@ -64,7 +64,7 @@ export class AuthComponent implements OnInit {
       ])
     });
 
-    if (this.router.url === '/login') {
+    if (this.router.url === '/user/login') {
       this.form = this.loginForm.controls;
     } else {
       this.form = this.registerForm.controls;

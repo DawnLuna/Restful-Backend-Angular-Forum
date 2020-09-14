@@ -18,7 +18,7 @@ import { AngularEditorModule } from '@kolkov/angular-editor';
 
 //Project imports:
 import { NavComponent, FooterComponent } from './shared';
-import { ForumComponent, SectionComponent, ThreadComponent, PostComponent, ProfileComponent, AuthComponent, AdminComponent } from './main';
+import { ForumComponent, SectionComponent, ThreadComponent, PostComponent } from './main';
 
 @NgModule({
   declarations: [
@@ -28,10 +28,7 @@ import { ForumComponent, SectionComponent, ThreadComponent, PostComponent, Profi
     ThreadComponent,
     SectionComponent,
     ForumComponent,
-    ProfileComponent,
-    PostComponent,
-    AuthComponent,
-    AdminComponent
+    PostComponent
   ],
   imports: [
     BrowserModule,

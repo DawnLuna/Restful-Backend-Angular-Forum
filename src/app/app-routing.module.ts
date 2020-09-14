@@ -1,23 +1,15 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { ForumComponent, SectionComponent, ThreadComponent, ProfileComponent, AuthComponent, AdminComponent } from './main';
-import { AdminGuard, AuthGuard } from './core';
+import { ForumComponent, SectionComponent, ThreadComponent, ProfileComponent } from './main';
+import { AuthGuard } from './core';
 
 const routes: Routes = [
   { path: 'section/:sid', component: SectionComponent },
   { path: 'thread/:tid', component: ThreadComponent },
-  {
-    path: 'profile/:uid', component: ProfileComponent,
-    canActivate: [AuthGuard]
-  },
-  { path: 'register', component: AuthComponent },
-  { path: 'login', component: AuthComponent },
-  { path: 'logout', component: AuthComponent },
-  {
-    path: 'admin', component: AdminComponent,
-    canActivate: [AdminGuard]
-  },
+  { path: 'user', loadChildren: () => import('./core/modules/auth-module/auth-module.module').then(m => m.AuthModuleModule) },
+  { path: 'profile', loadChildren: () => import('./core/modules/profile-module/profile-module.module').then(m => m.ProfileModuleModule) },
+  { path: 'admin', loadChildren: () => import('./core/modules/admin-module/admin-module.module').then(m => m.AdminModule) },
   { path: '', component: ForumComponent },
   { path: '**', redirectTo: '' }
 ];

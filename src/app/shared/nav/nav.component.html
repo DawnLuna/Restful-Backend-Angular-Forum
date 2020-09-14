@@ -14,13 +14,13 @@
                 <a class="nav-link" (click)="collapsed=!collapsed" [routerLink]="['/profile',auth.user._id]">Profile</a>
             </li>
             <li class="nav-item" *ngIf="auth.isAuthenticated">
-                <a class="nav-link" (click)="collapsed=!collapsed" [routerLink]="['/logout']">Log out</a>
+                <a class="nav-link" (click)="collapsed=!collapsed" [routerLink]="['/user/logout']">Log out</a>
             </li>
             <li class="nav-item" *ngIf="!auth.isAuthenticated">
-                <a class="nav-link" (click)="collapsed=!collapsed" [routerLink]="['/login']">Sign In</a>
+                <a class="nav-link" (click)="collapsed=!collapsed" [routerLink]="['/user/login']">Sign In</a>
             </li>
             <li class="nav-item" *ngIf="!auth.isAuthenticated">
-                <a class="nav-link" (click)="collapsed=!collapsed" [routerLink]="['/register']">Sign Up</a>
+                <a class="nav-link" (click)="collapsed=!collapsed" [routerLink]="['/user/register']">Sign Up</a>
             </li>
         </ul>
     </div>
