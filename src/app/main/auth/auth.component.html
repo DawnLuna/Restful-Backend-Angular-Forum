@@ -1,6 +1,6 @@
 <ng-container *ngIf="this.router.url === '/logout'">Loging out</ng-container>
 <ng-container *ngIf="this.router.url === '/user/register' || this.router.url === '/user/login'">
-    <div class="mx-auto mt-4 p-2 border rounded "
+    <div class="mx-auto mt-4 p-2 border rounded"
         style="width: 350px; background-image:  linear-gradient(20deg, #eeeeee, #ffffff);">
         <form [formGroup]="this.router.url === '/user/register' ? registerForm:loginForm"
             (ngSubmit)="this.router.url === '/user/register' ? register():login()">
@@ -41,7 +41,7 @@
                     </ngb-alert>
                 </div>
             </div>
-            <div class=" modal-footer">
+            <div class="modal-footer">
                 <button *ngIf="this.router.url === '/user/register'" type="submit" class="btn btn-primary"
                     [disabled]="!registerForm.valid || isSubmitting">Register</button>
                 <button *ngIf="this.router.url === '/user/login'" type="submit" class="btn btn-primary"

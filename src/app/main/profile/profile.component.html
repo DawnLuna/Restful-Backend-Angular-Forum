@@ -1,32 +1,101 @@
 <div *ngIf="user" class="mx-auto col-md-6 mt-3">
-    <div>username: <span class="font-weight-bold">{{user.username}}</span></div>
-    <div>signature: {{user.signature}}</div>
-    <div>thread: {{user.threadCount}}</div>
-    <div>replyCount: {{user.replyCount}}</div>
-    <ng-container *ngIf="user._id==auth.user._id">
-        <!-- implement change password here -->
+    <div class="mx-auto mt-4 p-2 border rounded" *ngIf="!changingPassword&&!managingAdmin"
+        style=" background-image: linear-gradient(20deg, #eeeeee, #ffffff);">
+        <div class="modal-header">
+            <h4 class="modal-title">User Profile</h4>
+        </div>
+        <div class="modal-body form-group">
+            <div>username: <span class="font-weight-bold">{{user.username}}</span></div>
+            <div>signature: {{user.signature}}</div>
+            <div>thread: {{user.threadCount}}</div>
+            <div>replyCount: {{user.replyCount}}</div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary mr-auto" *ngIf="auth.isForumAdmin"
+                (click)="managingAdmin=!managingAdmin">Manage Admin</button>
+            <button class="btn btn-primary" *ngIf="user._id==auth.user._id"
+                (click)="changingPassword=!changingPassword">Change Password</button>
+        </div>
+    </div>
+
+    <ng-container *ngIf="user._id==auth.user._id&&changingPassword">
+        <div class="mx-auto mt-4 p-2 border rounded"
+            style="width: 350px; background-image: linear-gradient(20deg, #eeeeee, #ffffff);">
+            <form [formGroup]="passwordForm" (ngSubmit)="changePassword()">
+                <div class="modal-header">
+                    <h4 class="modal-title">Change Password</h4>
+                </div>
+                <div class="modal-body form-group">
+                    <div>
+                        <label>*Old password</label>
+                        <input type="password" placeholder="Old Password" formControlName="oldPassword"
+                            class="form-control" maxlength="20">
+                        <ngb-alert [dismissible]="false" [type]="'danger'" class="py-1 px-2 m-0 mt-1"
+                            *ngIf="passwordForm.controls.oldPassword.invalid && passwordForm.controls.oldPassword.dirty">
+                            <ng-container
+                                *ngIf="passwordForm.controls.oldPassword.value.length<6||passwordForm.controls.oldPassword.value.length>20">
+                                must be between 6 and 20 characters.</ng-container>
+                        </ngb-alert>
+                    </div>
+                    <div class="mt-2">
+                        <label>*New Password</label>
+                        <input type="password" placeholder="New Password" formControlName="newPassword"
+                            class="form-control" maxlength="20">
+                        <ngb-alert [dismissible]="false" [type]="'danger'" class="py-1 px-2 m-0 mt-1"
+                            *ngIf="passwordForm.controls.newPassword.invalid && passwordForm.controls.newPassword.dirty">
+                            <ng-container
+                                *ngIf="passwordForm.controls.newPassword.value.length<6||passwordForm.controls.newPassword.value.length>64">
+                                must be between 6 and 20 characters.</ng-container>
+                        </ngb-alert>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-danger mr-auto" *ngIf="user._id==auth.user._id"
+                        (click)="changingPassword=!changingPassword">Back</button>
+                    <button type="submit" class="btn btn-primary"
+                        [disabled]="passwordForm.invalid || isSubmitting">Change Password</button>
+                </div>
+            </form>
+        </div>
     </ng-container>
-    <div class="mt-4" *ngIf="auth.isForumAdmin">
-        <ng-container *ngIf="!auth.isUserForumAdmin(user._id)">
-            <ngb-alert [dismissible]="false" [type]="'danger'" *ngIf="user.banned">
-                <strong>Error!</strong> You can not add a banned user.
-            </ngb-alert>
-            <button class="btn btn-primary" [disabled]="isSubmitting || user.banned" (click)="addForumAdmin()">
+
+    <div class="mx-auto mt-4 p-2 border rounded" *ngIf="auth.isForumAdmin&&managingAdmin"
+        style=" background-image: linear-gradient(20deg, #eeeeee, #ffffff);">
+        <div class="modal-header">
+            <h4 class="modal-title">Manage Forum Admin</h4>
+        </div>
+        <div class="modal-body form-group">
+            <div>username: <span class="font-weight-bold">{{user.username}}</span></div>
+            <div>signature: {{user.signature}}</div>
+            <div>thread: {{user.threadCount}}</div>
+            <div>replyCount: {{user.replyCount}}</div>
+            <ng-container *ngIf="!auth.isUserForumAdmin(user._id)">
+                <ngb-alert [dismissible]="false" [type]="'danger'" *ngIf="user.banned">
+                    <strong>Error!</strong> You can not add a banned user.
+                </ngb-alert>
+            </ng-container>
+            <ng-container *ngIf="auth.isUserForumAdmin(user._id)">
+                <ngb-alert [dismissible]="false" [type]="'danger'"
+                    *ngIf="auth.isUserForumAdmin(user._id)&&cache.forum.admins.length<2">
+                    <strong>Error!</strong> You can not remove the last admin.
+                </ngb-alert>
+                <ngb-alert [dismissible]="false" [type]="'warning'"
+                    *ngIf="user._id==auth.user._id&&cache.forum.admins.length>1">
+                    <strong>Warning!</strong> You are removing yourself!
+                </ngb-alert>
+            </ng-container>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-danger mr-auto" (click)="managingAdmin=!managingAdmin">Back</button>
+            <button class="btn btn-primary" *ngIf="auth.isUserForumAdmin(user._id)"
+                [disabled]="isSubmitting || cache.forum.admins.length<2" (click)="removeForumAdmin()">Remove from Forum
+                Admin</button>
+            <button class="btn btn-primary" *ngIf="!auth.isUserForumAdmin(user._id)"
+                [disabled]="isSubmitting || user.banned" (click)="addForumAdmin()">
                 Add to Forum Admin</button>
-        </ng-container>
-        <ng-container *ngIf="auth.isUserForumAdmin(user._id)">
-            <ngb-alert [dismissible]="false" [type]="'danger'"
-                *ngIf="auth.isUserForumAdmin(user._id)&&cache.forum.admins.length<2">
-                <strong>Error!</strong> You can not remove the last admin.
-            </ngb-alert>
-            <ngb-alert [dismissible]="false" [type]="'warning'"
-                *ngIf="user._id==auth.user._id&&cache.forum.admins.length>1">
-                <strong>Warning!</strong> You are removing yourself!
-            </ngb-alert>
-            <button class="btn btn-primary" [disabled]="isSubmitting || cache.forum.admins.length<2"
-                (click)="removeForumAdmin()">Remove from Forum Admin</button>
-        </ng-container>
+        </div>
     </div>
 </div>
-<ngb-alert class="mt-3" *ngIf="alert" [type]="alert.type" (close)="closeAlert()">{{ alert.message }}
+<ngb-alert class="mt-3" *ngIf="alert" [type]="alert.type" (close)="closeAlert()">
+    <pre>{{ alert.message }}</pre>
 </ngb-alert>

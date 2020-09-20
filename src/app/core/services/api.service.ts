@@ -116,14 +116,14 @@ export class ApiService {
     return this.http.post<any>(`${this.endpoint}user/login`, body);
   }
 
-  changePassword(body: User): Observable<User> {
+  changePassword(body: User): Observable<any> {
     let httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
         'Authorization': this.auth.token
       })
     };
-    return this.http.post<User>(`${this.endpoint}user/password`, body, httpOptions);
+    return this.http.put<any>(`${this.endpoint}user/password`, body, httpOptions);
   }
 
 }
