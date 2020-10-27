@@ -1,8 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { ForumComponent, SectionComponent, ThreadComponent, ProfileComponent } from './main';
-import { AuthGuard } from './core';
+import { ForumComponent, SectionComponent, ThreadComponent } from './main';
 
 const routes: Routes = [
   { path: 'section/:sid', component: SectionComponent },

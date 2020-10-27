@@ -5,10 +5,12 @@
             <h4 class="modal-title">User Profile</h4>
         </div>
         <div class="modal-body form-group">
-            <div>username: <span class="font-weight-bold">{{user.username}}</span></div>
-            <div>signature: {{user.signature}}</div>
-            <div>thread: {{user.threadCount}}</div>
-            <div>replyCount: {{user.replyCount}}</div>
+            <div class="profile-detail">
+                <div>username: <span class="font-weight-bold">{{user.username}}</span></div>
+                <div>signature: {{user.signature}}</div>
+                <div>thread: {{user.threadCount}}</div>
+                <div>replyCount: {{user.replyCount}}</div>
+            </div>
         </div>
         <div class="modal-footer">
             <button class="btn btn-primary mr-auto" *ngIf="auth.isForumAdmin"
@@ -65,10 +67,12 @@
             <h4 class="modal-title">Manage Forum Admin</h4>
         </div>
         <div class="modal-body form-group">
-            <div>username: <span class="font-weight-bold">{{user.username}}</span></div>
-            <div>signature: {{user.signature}}</div>
-            <div>thread: {{user.threadCount}}</div>
-            <div>replyCount: {{user.replyCount}}</div>
+            <div class="profile-detail">
+                <div>username: <span class="font-weight-bold">{{user.username}}</span></div>
+                <div>signature: {{user.signature}}</div>
+                <div>thread: {{user.threadCount}}</div>
+                <div>replyCount: {{user.replyCount}}</div>
+            </div>
             <ng-container *ngIf="!auth.isUserForumAdmin(user._id)">
                 <ngb-alert [dismissible]="false" [type]="'danger'" *ngIf="user.banned">
                     <strong>Error!</strong> You can not add a banned user.
