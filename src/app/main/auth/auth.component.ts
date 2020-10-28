@@ -16,6 +16,11 @@ export class AuthComponent implements OnInit {
   loginForm: FormGroup;
   form: { [key: string]: AbstractControl; };
 
+  alert: { type: string, message: string };
+  closeAlert() {
+    this.alert = undefined;
+  }
+
   constructor(
     private api: ApiService,
     public router: Router,
@@ -78,8 +83,21 @@ export class AuthComponent implements OnInit {
         this.auth.login(data.token);
         this.router.navigateByUrl('/');
       },
-      error => {
-        this.isSubmitting = false;
+      err => {
+        if(err.error.errors) {
+          let msg:string = '';
+          err.error.errors.forEach(element => {
+            if(msg.length>0) {
+              msg += `<br>
+              `;
+            }
+            msg += element.msg;
+          });
+          this.alert = { type: 'danger', message: `${msg}` };
+        } else {
+          this.alert = { type: 'danger', message: `${err.status} ${err.statusText}: ${err.error.message}` };
+        }
+        setTimeout(() => { this.isSubmitting = false; }, 500);
       }
     );
   }
@@ -91,8 +109,9 @@ export class AuthComponent implements OnInit {
         this.auth.login(data.token);
         this.router.navigateByUrl('/');
       },
-      error => {
-        this.isSubmitting = false;
+      err => {
+        this.alert = { type: 'danger', message: `${err.error.message}` };
+        setTimeout(() => { this.isSubmitting = false; }, 500);
       }
     );
   }

@@ -42,6 +42,9 @@
                 </div>
             </div>
             <div class="modal-footer">
+                <ngb-alert *ngIf="alert" [type]="alert.type" (close)="closeAlert()">
+                    <div [innerHTML]="alert.message"></div>
+                </ngb-alert>
                 <button *ngIf="this.router.url === '/user/register'" type="submit" class="btn btn-primary"
                     [disabled]="!registerForm.valid || isSubmitting">Register</button>
                 <button *ngIf="this.router.url === '/user/login'" type="submit" class="btn btn-primary"
