@@ -6,7 +6,7 @@ import { Forum } from '..';
   providedIn: 'root'
 })
 export class CacheService {
-  public forum: Forum;
+  public forumData: Forum;
   public token: string;
 
   constructor() {
@@ -14,16 +14,20 @@ export class CacheService {
     this.loadToken();
   }
 
+  get forum() {
+    return this.forumData;
+  }
+
   loadForum(): void {
-    this.forum = JSON.parse(localStorage.getItem('forum'));
+    this.forumData = JSON.parse(localStorage.getItem('forum'));
   }
 
   saveForum(): void {
-    localStorage.setItem('forum', JSON.stringify(this.forum));
+    localStorage.setItem('forum', JSON.stringify(this.forumData));
   }
 
   updateforum(forum: Forum) {
-    this.forum = forum;
+    this.forumData = forum;
     this.saveForum();
   }
 

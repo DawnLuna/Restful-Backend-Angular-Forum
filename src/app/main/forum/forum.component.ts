@@ -9,18 +9,16 @@ import { ApiService, AuthService, CacheService, TitleService, Forum, Section } f
 })
 export class ForumComponent implements OnInit {
 
-  forum: Forum;
   sections: Section[] = [];
 
   constructor(
     private api: ApiService,
     public auth: AuthService,
-    private cache: CacheService,
+    public cache: CacheService,
     private title: TitleService
   ) { }
 
   ngOnInit(): void {
-    this.forum = this.cache.forum;
     this.title.resetTitle();
     this.api.getSections().subscribe(
       sections => {
